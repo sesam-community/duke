@@ -1,0 +1,16 @@
+sudo: required
+
+
+language: java
+
+jdk: oraclejdk8
+
+services:
+  - docker
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker build --build-arg BuildNumber="$TRAVIS_BUILD_NUMBER" --build-arg Commit="$TRAVIS_COMMIT" -t sesamcommunity/duke .;
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push sesamcommunity/duke:latest;
+fi
