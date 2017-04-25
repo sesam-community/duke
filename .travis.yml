@@ -9,8 +9,4 @@ services:
   - docker
 
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker build --build-arg BuildNumber="$TRAVIS_BUILD_NUMBER" --build-arg Commit="$TRAVIS_COMMIT" -t sesamcommunity/sesam-duke-microservice .;
-    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push sesamcommunity/sesam-duke-microservice:latest;
-    fi
+  - bash <(curl -s https://raw.githubusercontent.com/sesam-community/guidelines/master/after_success.sh)
