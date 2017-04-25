@@ -11,7 +11,7 @@ A Java microservice that uses the Duke deduplication engine (https://github.com/
 
 To run it:
 
-    docker run -p 4567:4567 sesam-community/sesam-duke-microservice
+    docker run -p 4567:4567 sesamcommunity/duke
 
 Then open a browser on http://localhost:4567
 
@@ -20,7 +20,7 @@ To build a new version of the duke microservice:
 
     mvn clean install
 
-    docker build -t sesam-community/sesam-duke-microservice .
+    docker build -t sesamcommunity/duke .
 
 
 By default, the duke microservice uses the configuration in the file "src/main/resources/testdukeconfig.xml". This
