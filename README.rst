@@ -4,9 +4,9 @@ duke-microservice
 
 A Java microservice that uses the Duke deduplication engine (https://github.com/larsga/Duke).
 
-.. image:: https://travis-ci.org/sesam-community/sesam-duke-microservice.svg?branch=master
+.. image:: https://travis-ci.org/sesam-community/duke.svg?branch=master
    :alt: Build Status
-   :target: https://travis-ci.org/sesam-community/sesam-duke-microservice
+   :target: https://travis-ci.org/sesam-community/duke
 
 
 To run it:
