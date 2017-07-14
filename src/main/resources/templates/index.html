@@ -31,6 +31,15 @@
                 <a href="/deduplication/{{deduplication.name}}">/deduplication/{{deduplication.name}}</a>
             </div>
 
+            <div>Use these endpoints for http transforms:</div>
+            <ul>
+                {% for datasetSource in deduplication.dataSources %}
+                <li>
+                    <a href="/deduplication/{{deduplication.name}}/{{datasetSource.datasetId}}/httptransform">/deduplication/{{deduplication.name}}/{{datasetSource.datasetId}}/httptransform</a>
+                </li>
+                {% endfor %}
+            </ul>
+
         </li>
         {% endfor %}
 
@@ -57,6 +66,15 @@
             <div>
                 <a href="/recordlinkage/{{recordLinkage.name}}">/recordlinkage/{{recordLinkage.name}}</a>
             </div>
+
+            <div>Use these endpoints for http transforms:</div>
+            <ul>
+                {% for datasetSource in recordLinkage.dataSources %}
+                <li>
+                    <a href="/recordlinkage/{{recordLinkage.name}}/{{datasetSource.datasetId}}/httptransform">/recordlinkage/{{deduplication.name}}/{{datasetSource.datasetId}}/httptransform</a>
+                </li>
+                {% endfor %}
+            </ul>
 
         </li>
         {% endfor %}

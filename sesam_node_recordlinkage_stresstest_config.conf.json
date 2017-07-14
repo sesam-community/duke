@@ -1,0 +1,112 @@
+[
+  {
+    "_id": "countries-dbpedia-to-duke",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "countries-dbpedia.csv"
+    },
+    "sink": {
+      "type": "json",
+      "system": "duke",
+      "url": "http://localhost:4567/recordlinkage/countries-dbpedia-mondial/countries-dbpedia"
+    },
+    "pump": {
+      "cron_expression": "0 0 1 1 ?"
+    }
+  },
+  {
+    "_id": "countries-dbpedia.csv",
+    "type": "pipe",
+    "source": {
+      "type": "fake",
+      "system": "fake_data",
+      "entities": 10000,
+      "template": {
+        "_id": "system:dbpedia",
+        "area": "system:area",
+        "capital": "last_name",
+        "country": "first_name",
+        "id": "system:dbpedia"
+      }
+    },
+    "pump": {
+      "cron_expression": "0 0 1 1 ?"
+    }
+  },
+  {
+    "_id": "countries-mondial-to-duke",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "countries-mondial.csv"
+    },
+    "sink": {
+      "type": "json",
+      "system": "duke",
+      "url": "http://localhost:4567/recordlinkage/countries-dbpedia-mondial/countries-mondial"
+    },
+    "pump": {
+      "cron_expression": "0 0 1 1 ?"
+    }
+  },
+  {
+    "_id": "countries-mondial.csv",
+    "type": "pipe",
+    "source": {
+      "type": "fake",
+      "system": "fake_data",
+      "entities": 10000,
+      "template": {
+        "_id": "system:mondial",
+        "area": "system:area",
+        "capital": "last_name",
+        "country": "first_name",
+        "id": "system:mondial"
+      }
+    },
+    "pump": {
+      "cron_expression": "0 0 1 1 ?"
+    }
+  },
+  {
+    "_id": "from-duke-countries-dbpedia-mondial",
+    "type": "pipe",
+    "source": {
+      "type": "json",
+      "system": "duke",
+      "supports_since": true,
+      "url": "http://localhost:4567/recordlinkage/countries-dbpedia-mondial"
+    },
+    "pump": {
+      "cron_expression": "0 0 1 1 ?"
+    }
+  },
+  {
+    "_id": "fake_data",
+    "type": "system:fake",
+    "name": "Fake news",
+    "id_pools": {
+      "area": {
+        "max": 10,
+        "min": 1,
+        "seed": 1234
+      },
+      "dbpedia": {
+        "max": 1000000,
+        "min": 1,
+        "seed": 1234
+      },
+      "mondial": {
+        "max": 1000000,
+        "min": 1,
+        "seed": 1234
+      }
+    }
+  },
+  {
+    "_id": "duke",
+    "type": "system:url",
+    "base_url": "http://localhost:4567/"
+  }
+]

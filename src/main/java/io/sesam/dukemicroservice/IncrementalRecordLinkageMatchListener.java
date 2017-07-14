@@ -29,9 +29,10 @@ import no.priv.garshol.duke.Record;
 import no.priv.garshol.duke.matchers.LinkDatabaseMatchListener;
 import no.priv.garshol.duke.matchers.MatchListener;
 
-public class IncrementalRecordLinkageMatchListener extends LinkDatabaseMatchListener {
+public class IncrementalRecordLinkageMatchListener extends BaseLinkDatabaseMatchListener {
 
     private final Logger logger;
+    private long batchStartTime;
 
     public IncrementalRecordLinkageMatchListener(String deduplicationName, Configuration config, LinkDatabase linkdb) {
         super(config, linkdb);
@@ -39,12 +40,14 @@ public class IncrementalRecordLinkageMatchListener extends LinkDatabaseMatchList
     }
 
     public void batchReady(int size) {
+        batchStartTime = System.nanoTime();
         logger.info("batchReady(size={})", size);
         super.batchReady(size);
     }
 
     public void batchDone() {
-        logger.info("batchDone()");
         super.batchDone();
+        long batchElapsedTime = System.nanoTime() - this.batchStartTime;
+        logger.info("batchDone() batchElapsedTime: {} seconds.", batchElapsedTime / 1e9);
     }
 }

@@ -75,9 +75,14 @@
     <!--
         The 'RecordLinkage' element is used when you want to match element in one dataset against
         elements in another dataset.
+
+        The "link-database-type" attribute can have the following value:
+          "h2" (the default)
+          "in-memory"
     -->
     <RecordLinkage name="countries-dbpedia-mondial"
                    link-mode="one-to-one"
+                   link-database-type="h2"
     >
         <!-- This is the configuration for the Duke component itself. It is very similar to the config-file you
         would use if you were using Duke as a stand-alone commandline tool. The difference is that the only

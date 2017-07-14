@@ -47,6 +47,8 @@ import no.priv.garshol.duke.databases.DocumentRecord;
 import no.priv.garshol.duke.databases.GeoProperty;
 import no.priv.garshol.duke.utils.Utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /*
  * We need our own version of the LuceneDatabase class. We would have preferred to just derive from
  * the LuceneDatabase class, but that is not possible, since too many of the bits we need are
@@ -75,15 +77,23 @@ public abstract class IncrementalLuceneDatabase implements Database {
     // helper for geostuff
     private GeoProperty geoprop;
 
+    private final Logger logger;
+
+    private boolean indexingIsDisabled = false;
+
     public IncrementalLuceneDatabase() {
         this.analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
         this.maintracker = new EstimateResultTracker();
-        this.max_search_hits = 1000000;
-        this.fuzzy_search = true; // on by default
+        this.logger = LoggerFactory.getLogger("IncrementalLuceneDatabase");
     }
 
     public void setConfiguration(Configuration config) {
         this.config = config;
+        logger.info("Setting config: {}", config.getProperties());
+    }
+
+    public void setIndexingIsDisabled(boolean indexingIsDisabled) {
+        this.indexingIsDisabled = indexingIsDisabled;
     }
 
     public void setOverwrite(boolean overwrite) {
@@ -365,6 +375,10 @@ public abstract class IncrementalLuceneDatabase implements Database {
         }
 
         public Collection<Record> doQuery(Query query, Filter filter) {
+            if (directory == null) {
+                init();
+            }
+
             List<Record> matches;
             try {
                 ScoreDoc[] hits;
@@ -482,10 +496,20 @@ public abstract class IncrementalLuceneDatabase implements Database {
      * override this to store the DATASET_ID_PROPERTY_NAME and GROUP_NO_PROPERTY_NAME as Field.Index.NOT_ANALYZED
      */
     public void index(Record record) {
+        if (indexingIsDisabled) {
+            // when we are running a http transform, we sometimes don't wan't to index anything.
+            return;
+        }
         index(record, false);
+
     }
 
     public void index(Record record, boolean markAsDeleted) {
+        if (indexingIsDisabled) {
+            // when we are running a http transform, we sometimes don't wan't to index anything.
+            return;
+        }
+
         if (directory == null)
             init();
 

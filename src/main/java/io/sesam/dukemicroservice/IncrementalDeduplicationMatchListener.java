@@ -29,7 +29,7 @@ import no.priv.garshol.duke.Record;
 import no.priv.garshol.duke.matchers.LinkDatabaseMatchListener;
 import no.priv.garshol.duke.matchers.MatchListener;
 
-public class IncrementalDeduplicationMatchListener extends LinkDatabaseMatchListener {
+public class IncrementalDeduplicationMatchListener extends BaseLinkDatabaseMatchListener {
 
     private final Logger logger;
 

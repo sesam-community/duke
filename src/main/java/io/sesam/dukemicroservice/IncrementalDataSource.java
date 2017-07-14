@@ -64,12 +64,15 @@ public class IncrementalDataSource extends ColumnarDataSource {
             builder.newRecord();
 
             for (Column column : getColumns()) {
-                String value = null;
                 JsonElement jsonElement = entity.get(column.getName());
                 if (jsonElement != null) {
-                    value = jsonElement.getAsString();
+                    if (jsonElement.isJsonArray()){
+                        for (JsonElement v: jsonElement.getAsJsonArray()) {
+                            builder.addValue(column, jsonElement.getAsString());
+                        }
+                    } 
+                    else builder.addValue(column, jsonElement.getAsString());
                 }
-                builder.addValue(column, value);
             }
 
             ModifiableRecord record = (ModifiableRecord)builder.getRecord();

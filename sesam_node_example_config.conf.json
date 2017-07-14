@@ -117,6 +117,75 @@
       "cron_expression": "0 0 1 1 ?"
     }
   },
+
+  {
+    "_id": "countries-mondial-to-duke-http-transform",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "countries-mondial.csv"
+    },
+    "transform": {
+      "type": "http",
+      "system":"duke",
+      "url": "http://localhost:4567/recordlinkage/countries-dbpedia-mondial/countries-mondial/httptransform"
+    },
+    "pump": {
+      "cron_expression": "0 0 1 1 ?"
+    }
+  },
+  {
+    "_id": "countries-mondial-to-duke-deduplication-http-transform",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "countries-mondial.csv"
+    },
+    "transform": {
+      "type": "http",
+      "system":"duke",
+      "url": "http://localhost:4567/deduplication/countries-dbpedia-mondial/countries-mondial/httptransform"
+    },
+    "pump": {
+      "cron_expression": "0 0 1 1 ?"
+    }
+  },
+
+
+  {
+    "_id": "countries-dbpedia-to-duke-http-transform",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "countries-dbpedia.csv"
+    },
+    "transform": {
+      "type": "http",
+      "system":"duke",
+      "url": "http://localhost:4567/recordlinkage/countries-dbpedia-mondial/countries-dbpedia/httptransform"
+    },
+    "pump": {
+      "cron_expression": "0 0 1 1 ?"
+    }
+  },
+  {
+    "_id": "countries-dbpedia-to-duke-deduplication-http-transform",
+    "type": "pipe",
+    "source": {
+      "type": "dataset",
+      "dataset": "countries-dbpedia.csv"
+    },
+    "transform": {
+      "type": "http",
+      "system":"duke",
+      "url": "http://localhost:4567/deduplication/countries-dbpedia-mondial/countries-dbpedia/httptransform"
+    },
+    "pump": {
+      "cron_expression": "0 0 1 1 ?"
+    }
+  },
+
+
   {
     "_id": "duke",
     "type": "system:url",
@@ -128,3 +197,6 @@
     "base_url": "https://raw.githubusercontent.com/larsga/Duke/master/doc/example-data/"
   }
 ]
+
+
+
