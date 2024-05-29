@@ -1,9 +1,17 @@
-FROM java:8-jre-alpine
+#
+# Build stage
+#
+FROM maven:3.6.0-jdk-11-slim AS build
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn -f /home/app/pom.xml clean package
 
-ADD target/duke-microservice-1.0-SNAPSHOT.jar /srv/
-
-RUN addgroup -S -g 1000 sesam && adduser -S -D -H -u 1000 -G sesam sesam
-    
+#
+# Package stage
+#
+FROM openjdk:11-jre-slim
+COPY --from=build /home/app/target/duke-microservice-1.0-SNAPSHOT.jar /srv/
+RUN addgroup --system -gid 1000 sesam && adduser -S -D -H -uid 1000 -gid sesam sesam
 EXPOSE 4567
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar /srv/duke-microservice-1.0-SNAPSHOT.jar"]
 
