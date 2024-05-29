@@ -68,7 +68,7 @@ public class IncrementalDataSource extends ColumnarDataSource {
                 if (jsonElement != null) {
                     if (jsonElement.isJsonArray()){
                         for (JsonElement v: jsonElement.getAsJsonArray()) {
-                            builder.addValue(column, jsonElement.getAsString());
+                            builder.addValue(column, v.getAsString());
                         }
                     } 
                     else builder.addValue(column, jsonElement.getAsString());
