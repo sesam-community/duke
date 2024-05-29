@@ -11,7 +11,6 @@ RUN mvn -f /home/app/pom.xml clean package
 #
 FROM openjdk:11-jre-slim
 COPY --from=build /home/app/target/duke-microservice-1.0-SNAPSHOT.jar /srv/
-RUN addgroup --system -gid 1000 sesam && adduser --system --disabled-password -H -uid 1000 -gid sesam sesam
 EXPOSE 4567
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar /srv/duke-microservice-1.0-SNAPSHOT.jar"]
 
